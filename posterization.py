@@ -24,11 +24,12 @@ class Posterization():
         self.gray_img = cv2.cvtColor(self.img, cv2.COLOR_RGB2GRAY)
         self.gray_img = cv2.GaussianBlur(self.gray_img, (5, 5), 4)
     
-    def get_output(self, n=4, edge=2, shadow_upper=25, in_lower=20, in_upper=85, out_lower=150):
+    def get_output(self, n=4, edge=2, shadow_upper=25, in_lower=20, in_upper=85, out_lower=150, color=0):
+        colormap = [cv2.COLORMAP_DEEPGREEN, cv2.COLORMAP_OCEAN, cv2.COLORMAP_AUTUMN]
         _, _, sync_img = self.edge_shadow_extract(edge=edge, shadow_upper=shadow_upper)
         pos_img = self.posterization(n=n, in_lower=in_lower, in_upper=in_upper, out_lower=out_lower)
         fin_img = cv2.bitwise_and(pos_img, sync_img)
-        fin_img = cv2.applyColorMap(fin_img, cv2.COLORMAP_DEEPGREEN)
+        fin_img = cv2.applyColorMap(fin_img, colormap[color])
         return fin_img
 
     def edge_shadow_extract(self, edge=3, shadow_upper=25):
