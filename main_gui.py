@@ -57,7 +57,8 @@ class MainWindow(QWidget):
     def saveAction(self):
         (fileName, selectedFilter) = QFileDialog.getSaveFileName(self, "Save file", os.path.expanduser('~'), "Images (*.png *.jpg)")
         if fileName != "":
-            cv2.imwrite(fileName, self.out_img)
+            out_img = cv2.cvtColor(self.out_img, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(fileName, out_img)
 
     def initUI(self):
         self.setWindowTitle("Posterization")
